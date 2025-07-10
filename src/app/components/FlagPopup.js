@@ -25,6 +25,7 @@ export default function FlagPopup({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isFlagFound, setIsFlagFound] = useState(false);
+  const [categoryCompleteMsg, setCategoryCompleteMsg] = useState('');
   
   // Check bij het laden van de component of de flag al gevonden is
   useEffect(() => {
@@ -70,6 +71,15 @@ export default function FlagPopup({
           );
           sessionStorage.setItem('foundFlags', JSON.stringify(updatedFlags));
           
+          // Check of nu alle flags in deze categorie gevonden zijn
+          const category = flagFound.category;
+          const categoryFlags = updatedFlags.filter(f => f.category === category);
+          const allCategoryFound = categoryFlags.every(f => f.found);
+          if (allCategoryFound) {
+            setCategoryCompleteMsg(`🎉 Je hebt nu alle flags in de categorie "${category}" gevonden!`);
+          } else {
+            setCategoryCompleteMsg('');
+          }
           // Update de lokale state
           setIsFlagFound(true);
           return false;
@@ -96,6 +106,11 @@ export default function FlagPopup({
       <Popup open={isOpen} onClose={handleClose} modal>
         <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold mb-4 dark:text-white">Je hebt een flag gevonden! 🎉</h2>
+          {categoryCompleteMsg && (
+            <div className="mb-2 p-2 bg-green-100 text-green-800 rounded text-center font-semibold">
+              {categoryCompleteMsg}
+            </div>
+          )}
           <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-4">
             <p className="font-mono text-lg break-all dark:text-white">{flagValue}</p>
           </div>
@@ -128,6 +143,11 @@ export default function FlagPopup({
       <Popup open={isOpen} onClose={handleClose} modal>
         <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold mb-4 dark:text-white">Je hebt een flag gevonden! 🎉</h2>
+          {categoryCompleteMsg && (
+            <div className="mb-2 p-2 bg-green-100 text-green-800 rounded text-center font-semibold">
+              {categoryCompleteMsg}
+            </div>
+          )}
           <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-4">
             <p className="font-mono text-lg break-all dark:text-white">{flagValue}</p>
           </div>

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { flags as initialFlags } from '../../flags';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import { saveSession } from '../../utils/sessionManager';
+import { generateCertificate } from '../../utils/certificateGenerator';
 
 export default function FlagsPage() {
   const [flags, setFlags] = useState([]);
@@ -14,10 +14,7 @@ export default function FlagsPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [allFlagsFound, setAllFlagsFound] = useState(false);
-  const [showPasswordPopup, setShowPasswordPopup] = useState(false);
-  const [passwordInput, setPasswordInput] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [isGeneratingCertificate, setIsGeneratingCertificate] = useState(false);
   
   // Nieuwe states voor categorisering
   const [selectedCategory, setSelectedCategory] = useState('Alle');
@@ -51,20 +48,11 @@ export default function FlagsPage() {
     }
   }, []);
 
-  // Auto-save when flags change
+  // Auto-save when flags change (only to sessionStorage)
   useEffect(() => {
-    const username = localStorage.getItem('username');
-    if (username && flags.length > 0) {
-      // Save to session storage
+    if (flags.length > 0) {
+      // Save to session storage only
       sessionStorage.setItem('foundFlags', JSON.stringify(flags));
-      
-      // Save to server
-      saveSession(username, {
-        flags: flags,
-        lastUpdated: new Date().toISOString()
-      }).catch(error => {
-        console.error('Error auto-saving progress:', error);
-      });
     }
   }, [flags]);
 
@@ -132,8 +120,16 @@ export default function FlagsPage() {
           flag.id === flagFound.id ? { ...flag, found: true } : flag
         );
         setFlags(updatedFlags);
-        
-        setPopupMessage(`Gefeliciteerd! Je hebt flag ${flagFound.flagName} gevonden!`);
+
+        // Check of nu alle flags in deze categorie gevonden zijn
+        const category = flagFound.category;
+        const categoryFlags = updatedFlags.filter(f => f.category === category);
+        const allCategoryFound = categoryFlags.every(f => f.found);
+        let extraMsg = '';
+        if (allCategoryFound) {
+          extraMsg = `🎉 Je hebt nu alle flags in de categorie "${category}" gevonden!\n`;
+        }
+        setPopupMessage(`${extraMsg}Gefeliciteerd! Je hebt flag ${flagFound.flagName} gevonden!`);
         setShowPopup(true);
         setResult(`✅ Flag gevonden: ${flagFound.flagName}`);
       }
@@ -151,9 +147,29 @@ export default function FlagsPage() {
       setFlags(resetFlags);
       setAllFlagsFound(false);
       setResult('Alle voortgang is gereset.');
+      // Verwijder gebruikersnaam en andere relevante data
+      localStorage.removeItem('username');
+      sessionStorage.clear();
+      // Redirect naar homepage zodat het welkomstscherm verschijnt
+      window.location.href = '/';
     } catch (error) {
       console.error('Error resetting flags:', error);
       setResult('Er is een fout opgetreden bij het resetten van de voortgang.');
+    }
+  };
+
+  const handleDownloadCertificate = async () => {
+    const username = localStorage.getItem('username') || 'Anonieme Speler';
+    
+    setIsGeneratingCertificate(true);
+    try {
+      await generateCertificate(username, flags);
+      setResult('✅ Certificaat succesvol gedownload!');
+    } catch (error) {
+      console.error('Error downloading certificate:', error);
+      setResult('❌ Er is een fout opgetreden bij het downloaden van het certificaat.');
+    } finally {
+      setIsGeneratingCertificate(false);
     }
   };
 
@@ -395,14 +411,25 @@ export default function FlagsPage() {
             Reset Voortgang
           </button>
           
-          {allFlagsFound && (
-            <button
-              onClick={() => setShowPasswordPopup(true)}
-              className="p-3 bg-green-500 text-white rounded-lg hover:bg-green-400 transition duration-200 ease-in-out"
-            >
-              Verzamelaar Badge Claimen
-            </button>
-          )}
+          <button
+            onClick={handleDownloadCertificate}
+            disabled={isGeneratingCertificate}
+            className="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition duration-200 ease-in-out flex items-center gap-2 disabled:opacity-50"
+          >
+            {isGeneratingCertificate ? (
+              <>
+                <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Certificaat genereren...
+              </>
+            ) : (
+              <>
+                📄 Certificaat Downloaden
+              </>
+            )}
+          </button>
         </div>
       </div>
 
@@ -410,38 +437,12 @@ export default function FlagsPage() {
       <Popup open={showPopup} onClose={() => setShowPopup(false)} modal>
         <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Flag Gevonden! 🎉</h2>
-          <p className="text-lg text-gray-700 dark:text-gray-300">{popupMessage}</p>
+          <div className="text-lg text-gray-700 dark:text-gray-300 whitespace-pre-line">
+            {popupMessage}
+          </div>
           <button
             onClick={() => setShowPopup(false)}
             className="w-full p-3 mt-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition duration-200 ease-in-out"
-          >
-            Sluiten
-          </button>
-        </div>
-      </Popup>
-
-      {/* Password popup voor het claimen van de badge als alle flags zijn gevonden */}
-      <Popup open={showPasswordPopup} onClose={() => {setShowPasswordPopup(false); setPasswordInput(''); setPasswordError('');}} modal>
-        <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800 dark:text-gray-200">🏆 Gefeliciteerd! 🏆</h2>
-          <div className="flex justify-center mb-6">
-            <div className="w-24 h-24 rounded-full bg-yellow-400 flex items-center justify-center text-5xl">
-              🥇
-            </div>
-          </div>
-          <p className="text-lg text-center mb-6 text-gray-700 dark:text-gray-300">
-            Je bent een echte Cyberbrein Master! Je hebt alle flags verzameld en je cybersecurity kennis bewezen.
-          </p>
-          <div className="bg-indigo-100 p-4 rounded-lg text-center mb-6 dark:bg-indigo-900/30">
-            <p className="text-indigo-700 dark:text-indigo-300 font-bold">Jouw speciale badge code:</p>
-            <p className="font-mono text-lg mt-2 break-all">{`COLLECTOR_${Date.now().toString(36).toUpperCase()}`}</p>
-          </div>
-          <p className="text-center mb-6 text-gray-700 dark:text-gray-300">
-            Ga naar het <a href="https://zvov2glhn23.typeform.com/to/hdmZmtZo" className="text-blue-600 dark:text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">formulier</a> om je badge te claimen.
-          </p>
-          <button
-            onClick={() => {setShowPasswordPopup(false); setPasswordSuccess(false);}}
-            className="w-full p-3 bg-green-600 text-white rounded-lg hover:bg-green-500 transition duration-200 ease-in-out"
           >
             Sluiten
           </button>
