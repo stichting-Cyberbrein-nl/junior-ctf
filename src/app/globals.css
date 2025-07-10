@@ -1,0 +1,417 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --card-background: #f8f8f8;
+  --card-foreground: #171717;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #111827;
+  --accent: #dbeafe;
+  --accent-foreground: #1e40af;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+}
+
+.dark {
+  --background: #111827;
+  --foreground: #f3f4f6;
+  --card-background: #1f2937;
+  --card-foreground: #f3f4f6;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #1f2937;
+  --secondary-foreground: #f3f4f6;
+  --accent: #1e40af;
+  --accent-foreground: #dbeafe;
+  --muted: #374151;
+  --muted-foreground: #9ca3af;
+  --border: #374151;
+  --input: #374151;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--foreground);
+  }
+  
+  p, span, div {
+    color: var(--foreground);
+  }
+  
+  a {
+    color: var(--primary);
+  }
+  
+  button {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Dark mode specifieke stijlen voor betere leesbaarheid */
+.dark .bg-white {
+  background-color: var(--card-background) !important;
+}
+
+.dark .bg-gray-100,
+.dark .bg-gray-50 {
+  background-color: var(--secondary) !important;
+}
+
+.dark .text-gray-700,
+.dark .text-gray-800,
+.dark .text-gray-900 {
+  color: var(--foreground) !important;
+}
+
+.dark .border-gray-200,
+.dark .border-gray-300 {
+  border-color: var(--border) !important;
+}
+
+/* Verbeterde dark mode voor kaarten en popups */
+.dark .shadow-lg,
+.dark .shadow-md,
+.dark .shadow-sm {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Extra dark mode verbeteringen */
+.dark .popup-content {
+  background-color: var(--card-background) !important;
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+.dark input::placeholder {
+  color: var(--muted-foreground) !important;
+}
+
+/* Betere contrasten voor tekst in dark mode */
+.dark .text-green-800 {
+  color: #a7f3d0 !important; /* Lichte groen voor betere zichtbaarheid */
+}
+
+.dark .text-red-800 {
+  color: #fca5a5 !important; /* Lichte rood voor betere zichtbaarheid */
+}
+
+.dark .text-yellow-800 {
+  color: #fde68a !important; /* Lichte geel voor betere zichtbaarheid */
+}
+
+.dark .text-blue-600, 
+.dark a.text-blue-600 {
+  color: #4ade80 !important; /* Lichtere groen voor links in dark mode */
+}
+
+/* Verbeterde achtergronden voor dark mode */
+.dark .bg-blue-50 {
+  background-color: rgba(30, 58, 138, 0.2) !important;
+}
+
+.dark .bg-green-100 {
+  background-color: rgba(6, 78, 59, 0.3) !important;
+}
+
+.dark .bg-red-100 {
+  background-color: rgba(127, 29, 29, 0.3) !important;
+}
+
+.dark .bg-yellow-100 {
+  background-color: rgba(120, 53, 15, 0.3) !important;
+}
+
+/* Verbeterde borders */
+.dark .border-yellow-200 {
+  border-color: rgba(253, 230, 138, 0.4) !important;
+}
+
+/* Zorgen dat tekst in popups goed zichtbaar is */
+.dark .popup-content h1,
+.dark .popup-content h2,
+.dark .popup-content h3,
+.dark .popup-content h4,
+.dark .popup-content h5,
+.dark .popup-content p,
+.dark .popup-content span,
+.dark .popup-content div {
+  color: var(--foreground) !important;
+}
+
+/* Buttons extra stylen voor dark mode */
+.dark button {
+  border-color: transparent;
+}
+
+.dark .text-gray-400,
+.dark .text-gray-500,
+.dark .text-gray-600 {
+  color: #9ca3af !important; /* Lichter grijs voor betere zichtbaarheid */
+}
+
+/* Emoji's beter zichtbaar maken in dark mode */
+.dark .emoji, 
+.dark span[role="img"],
+.dark button:has(span[role="img"]) {
+  filter: brightness(1.2);
+}
+
+/* Betere achtergronden voor pagina's */
+.dark main {
+  background-color: var(--background);
+}
+
+/* Tabellen voor dark mode verbeteren */
+.dark table th,
+.dark table td {
+  border-color: var(--border);
+}
+
+.dark table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dark table thead {
+  background-color: var(--card-background);
+}
+
+/* Code blocks beter leesbaar maken */
+.dark pre, 
+.dark code {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+/* Modale dialogen randen verbeteren */
+.dark .modal, 
+.dark [role="dialog"] {
+  border-color: var(--border);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8), 0 10px 10px -5px rgba(0, 0, 0, 0.7);
+}
+
+/* Afbeeldingen minder fel maken in dark mode */
+.dark img:not([src*=".svg"]) {
+  filter: brightness(0.9) contrast(1.1);
+}
+
+/* Verbeterde leesbare tekst voor ALLE tekst in dark mode */
+.dark * {
+  color-scheme: dark;
+}
+
+/* Base tekstkleuren versterken */
+.dark p, 
+.dark span, 
+.dark div, 
+.dark h1, 
+.dark h2, 
+.dark h3, 
+.dark h4, 
+.dark h5, 
+.dark h6,
+.dark label,
+.dark li {
+  color: #f8fafc !important; /* Zeer helder wit voor tekst */
+}
+
+/* Secundaire tekst iets lichter maar nog steeds goed leesbaar */
+.dark .text-gray-600,
+.dark .text-gray-500,
+.dark .text-gray-400 {
+  color: #cbd5e1 !important; /* Licht grijs met goed contrast */
+}
+
+/* Specifieke tekst in cards en containers */
+.dark .bg-white p,
+.dark .bg-gray-50 p,
+.dark .bg-gray-100 p,
+.dark .bg-white span,
+.dark .bg-gray-50 span,
+.dark .bg-gray-100 span,
+.dark .bg-white div,
+.dark .bg-gray-50 div,
+.dark .bg-gray-100 div {
+  color: #f8fafc !important;
+}
+
+/* Verbeterde achtergrondkleuren voor light-backgrounds in dark mode */
+.dark .bg-white,
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background-color: #1e293b !important; /* Donker blauwgrijs */
+}
+
+/* Verbeterde cards en containers */
+.dark .rounded-xl,
+.dark .rounded-lg {
+  background-color: #1e293b !important;
+  border-color: #475569 !important;
+}
+
+/* Specifieke kleuren voor tekst in gekleurde containers */
+.dark .bg-blue-50 p,
+.dark .bg-blue-50 span,
+.dark .bg-blue-50 div,
+.dark .bg-blue-50 h1,
+.dark .bg-blue-50 h2,
+.dark .bg-blue-50 h3 {
+  color: #e0f2fe !important; /* Licht blauw */
+}
+
+.dark .bg-purple-50 p,
+.dark .bg-purple-50 span,
+.dark .bg-purple-50 div,
+.dark .bg-purple-50 h1,
+.dark .bg-purple-50 h2,
+.dark .bg-purple-50 h3 {
+  color: #f3e8ff !important; /* Licht paars */
+}
+
+/* Quiz sectie verbeteringen */
+.dark .bg-gray-50,
+.dark .dark\:bg-gray-700 {
+  background-color: #1e293b !important;
+}
+
+/* Knoppen en actieve elementen */
+.dark button {
+  color: #ffffff !important;
+}
+
+.dark button.bg-white,
+.dark button.bg-gray-100,
+.dark button.bg-gray-50 {
+  color: #f8fafc !important;
+  background-color: #334155 !important;
+  border-color: #475569 !important;
+}
+
+/* Links duidelijker maken */
+.dark a,
+.dark a:visited {
+  color: #4ade80 !important; /* Heldere groene kleur */
+}
+
+.dark a:hover {
+  color: #86efac !important; /* Lichtere groene kleur bij hover */
+  text-decoration: underline;
+}
+
+/* Radio buttons en checkboxes */
+.dark input[type="radio"],
+.dark input[type="checkbox"] {
+  filter: invert(100%) hue-rotate(180deg) brightness(1.2);
+}
+
+/* Quizkaarten verbeteren */
+.dark .grid .bg-gray-50 {
+  background-color: #1e293b !important;
+}
+
+.dark .grid .text-gray-800 {
+  color: #f8fafc !important;
+}
+
+.dark .grid .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+
+/* Extra selector voor tekst in grid elementen */
+.dark .grid div p,
+.dark .grid div span,
+.dark .grid div h3 {
+  color: #f8fafc !important;
+}
+
+/* Verhoogde contrast voor moeilijkheidsgraden */
+.dark .bg-green-100.text-green-800 {
+  background-color: rgba(20, 83, 45, 0.5) !important;
+  color: #86efac !important;
+}
+
+.dark .bg-yellow-100.text-yellow-800 {
+  background-color: rgba(113, 63, 18, 0.5) !important;
+  color: #fef08a !important;
+}
+
+.dark .bg-red-100.text-red-800 {
+  background-color: rgba(127, 29, 29, 0.5) !important;
+  color: #fecaca !important;
+}
+
+/* Alle vage teksten op de pagina versterken */
+.dark .opacity-50,
+.dark .opacity-60,
+.dark .opacity-70 {
+  opacity: 0.9 !important;
+}
+
+/* Gradient achtergrond aanpassen voor dark mode */
+.dark .bg-gradient-to-b {
+  background: linear-gradient(to bottom, #0f172a, #1e293b) !important;
+}
+
+/* Specifieke styling voor popup component */
+.popup-content {
+  background-color: white;
+  padding: 0 !important;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.dark .popup-content {
+  background-color: #1e293b !important;
+  border-color: #374151 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.9), 0 10px 10px -5px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Verder verbeteren van tekst in popups/modals */
+.dark [role="dialog"] h2,
+.dark [role="dialog"] h3,
+.dark [role="dialog"] p,
+.dark [role="dialog"] span,
+.dark [role="dialog"] div {
+  color: #f8fafc !important;
+}
+
+.dark [role="dialog"] .bg-gray-100,
+.dark [role="dialog"] .bg-gray-50,
+.dark [role="dialog"] .bg-white {
+  background-color: #334155 !important;
+}
+
+/* Betere schaduwen en randen voor donkere modus */
+.dark .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.7), 0 4px 6px -2px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Verbeterde knoppen in dark mode */
+.dark button.bg-indigo-600,
+.dark button.bg-blue-600,
+.dark button.bg-green-600,
+.dark button.bg-purple-600,
+.dark button.bg-red-600 {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  filter: brightness(1.1);
+}

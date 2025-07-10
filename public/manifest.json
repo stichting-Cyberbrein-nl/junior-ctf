@@ -1,0 +1,21 @@
+{
+  "name": "Cyberbrein the Game",
+  "short_name": "Cyberbrein",
+  "description": "Een spannend spel over computercodes en geheime boodschappen",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-500x500.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    }
+  ]
+} 

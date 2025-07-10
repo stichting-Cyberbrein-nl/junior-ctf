@@ -1,0 +1,131 @@
+{
+  "users": [
+    {
+      "username": "addd",
+      "code": "1234",
+      "flags": [
+        {
+          "flagName": "FLAG_1",
+          "value": "FLAG_1{social_engineering}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_2",
+          "value": "FLAG_2{security_landmark}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_3",
+          "value": "FLAG_3{encryption_star}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_4",
+          "value": "FLAG_4{exploit_master}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_5",
+          "value": "FLAG_5{cryptosleutel}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_6",
+          "value": "FLAG_6{clean_reboot}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_7",
+          "value": "FLAG_7{zero_day_found}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_8",
+          "value": "FLAG_8{administrator_access}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_9",
+          "value": "FLAG_9{hidden_in_plain_sight}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_10",
+          "value": "FLAG_10{hover_reveal_secret}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_KONAMI",
+          "value": "FLAG_KONAMI{up_up_down_down_secret}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_DRAG",
+          "value": "FLAG_DRAG{drag_and_drop_master}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_ENCRYPTION",
+          "value": "FLAG_ENCRYPTION{knowledge_is_power}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_SHUFFLE",
+          "value": "FLAG_SHUFFLE{word_puzzle_master}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_EMOJI",
+          "value": "FLAG_EMOJI{emoji_code_master}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_DIFFERENCES",
+          "value": "FLAG_DIFFERENCES{spot_the_crypto_diff}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_QUIZ",
+          "value": "FLAG_QUIZ{crypto_knowledge_master}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_ENCRYPTION_QUIZ",
+          "value": "FLAG_ENCRYPTION_QUIZ{code_master_level_1}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_INTERNET_SAFETY",
+          "value": "FLAG_INTERNET_SAFETY{surf_safely_champion}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_PRIVACY_QUIZ",
+          "value": "FLAG_PRIVACY_QUIZ{privacy_guardian_2023}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_MORSE_CODE",
+          "value": "FLAG_MORSE_CODE{audio_decryption_expert}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_ENCRYPTION_LESSONS",
+          "value": "FLAG_ENCRYPTION_LESSONS{knowledge_unlocks_secrets}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_THEME",
+          "value": "FLAG_THEME{light_and_dark_secrets}",
+          "found": false
+        },
+        {
+          "flagName": "FLAG_14",
+          "value": "FLAG_14{code_master_2023}",
+          "found": false
+        }
+      ],
+      "createdAt": "2025-05-19T20:11:59.286Z"
+    }
+  ]
+}

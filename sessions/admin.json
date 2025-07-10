@@ -1,0 +1,231 @@
+{
+  "username": "admin",
+  "code": "1234",
+  "flags": [
+    {
+      "id": 1,
+      "flagName": "FLAG_1",
+      "description": "Eerste flag in backend pagina",
+      "value": "FLAG_1{social_engineering}",
+      "found": false,
+      "category": "Admin",
+      "hint": "Zoek in de diepte van het systeem, niet alle pagina's zijn zichtbaar voor normale gebruikers."
+    },
+    {
+      "id": 2,
+      "flagName": "FLAG_2",
+      "description": "Tweede flag in backend pagina",
+      "value": "FLAG_2{security_landmark}",
+      "found": false,
+      "category": "Admin",
+      "hint": "Sommige plekken zijn alleen bereikbaar als je de juiste toegang hebt."
+    },
+    {
+      "id": 3,
+      "flagName": "FLAG_3",
+      "description": "Derde flag - verborgen hint",
+      "value": "FLAG_3{encryption_star}",
+      "found": false,
+      "category": "Verborgen",
+      "hint": "Niet alles is wat het lijkt. Kijk goed naar de hints in de pagina's."
+    },
+    {
+      "id": 4,
+      "flagName": "FLAG_4",
+      "description": "Vierde flag - puzzel emoji op game pagina",
+      "value": "FLAG_4{exploit_master}",
+      "found": false,
+      "category": "UI Interactie",
+      "hint": "Speel met de elementen op de game pagina. Sommige emoji's hebben speciale functies."
+    },
+    {
+      "id": 5,
+      "flagName": "FLAG_5",
+      "description": "Vijfde flag - sleutel emoji op hint pagina",
+      "value": "FLAG_5{cryptosleutel}",
+      "found": false,
+      "category": "UI Interactie",
+      "hint": "Sleutels openen deuren naar nieuwe informatie. Zoek naar de sleutel op de hint pagina."
+    },
+    {
+      "id": 6,
+      "flagName": "FLAG_6",
+      "description": "Zesde flag - reset voortgang knop",
+      "value": "FLAG_6{clean_reboot}",
+      "found": false,
+      "category": "UI Interactie",
+      "hint": "Soms moet je alles opnieuw beginnen om vooruit te komen."
+    },
+    {
+      "id": 7,
+      "flagName": "FLAG_7",
+      "description": "Zevende flag - 404 pagina",
+      "value": "FLAG_7{zero_day_found}",
+      "found": false,
+      "category": "Verborgen",
+      "hint": "Wat gebeurt er als je een pagina probeert te openen die niet bestaat?"
+    },
+    {
+      "id": 8,
+      "flagName": "FLAG_8",
+      "description": "Achtste flag - admin pagina",
+      "value": "FLAG_8{administrator_access}",
+      "found": false,
+      "category": "Admin",
+      "hint": "Beheerders hebben speciale rechten en toegang. Zoek naar de admin ingang."
+    },
+    {
+      "id": 9,
+      "flagName": "FLAG_9",
+      "description": "Negende flag - verborgen in achtergrond van homepage",
+      "value": "FLAG_9{hidden_in_plain_sight}",
+      "found": false,
+      "category": "Verborgen",
+      "hint": "Soms is wat je zoekt direct voor je neus, maar toch onzichtbaar bij een eerste blik."
+    },
+    {
+      "id": 10,
+      "flagName": "FLAG_10",
+      "description": "Tiende flag - verschijnt bij hover op game pagina",
+      "value": "FLAG_10{hover_reveal_secret}",
+      "found": false,
+      "category": "UI Interactie",
+      "hint": "Beweeg je muis over verschillende elementen op de game pagina en zie wat er gebeurt."
+    },
+    {
+      "id": 11,
+      "flagName": "FLAG_KONAMI",
+      "description": "Geheime Konami Code flag",
+      "value": "FLAG_KONAMI{up_up_down_down_secret}",
+      "found": false,
+      "category": "UI Interactie",
+      "hint": "Een beroemde code uit de gamewereld: omhoog, omhoog, omlaag, omlaag..."
+    },
+    {
+      "id": 12,
+      "flagName": "FLAG_DRAG",
+      "description": "Sleep het logo naar de target",
+      "value": "FLAG_DRAG{drag_and_drop_master}",
+      "found": false,
+      "category": "UI Interactie",
+      "hint": "Soms moet je dingen letterlijk naar hun bestemming slepen."
+    },
+    {
+      "id": 13,
+      "flagName": "FLAG_ENCRYPTION",
+      "description": "Flag in encryptie lesmodules",
+      "value": "FLAG_ENCRYPTION{knowledge_is_power}",
+      "found": false,
+      "category": "Lessen",
+      "hint": "Leer over encryptie en ontdek geheimen in de lesmodules."
+    },
+    {
+      "id": 14,
+      "flagName": "FLAG_SHUFFLE",
+      "description": "Flag in woord shuffle spel",
+      "value": "FLAG_SHUFFLE{word_puzzle_master}",
+      "found": false,
+      "category": "Spellen",
+      "hint": "Speel het woord shuffle spel en voltooi alle niveaus."
+    },
+    {
+      "id": 15,
+      "flagName": "FLAG_EMOJI",
+      "description": "Flag in emoji codekraker spel",
+      "value": "FLAG_EMOJI{emoji_code_master}",
+      "found": false,
+      "category": "Spellen",
+      "hint": "Emoji's kunnen geheime boodschappen bevatten. Kraak de code in het emoji spel."
+    },
+    {
+      "id": 16,
+      "flagName": "FLAG_DIFFERENCES",
+      "description": "Flag in zoek de verschillen spel",
+      "value": "FLAG_DIFFERENCES{spot_the_crypto_diff}",
+      "found": false,
+      "category": "Spellen",
+      "hint": "Let goed op de kleine details in het zoek-de-verschillen spel."
+    },
+    {
+      "id": 17,
+      "flagName": "FLAG_QUIZ",
+      "description": "Flag voor het voltooien van de cybersecurity quiz",
+      "value": "FLAG_QUIZ{crypto_knowledge_master}",
+      "found": false,
+      "category": "Quiz",
+      "hint": "Test je cybersecurity kennis in de quiz sectie."
+    },
+    {
+      "id": 18,
+      "flagName": "FLAG_ENCRYPTION_QUIZ",
+      "description": "Flag voor het voltooien van de encryptie kennis quiz",
+      "value": "FLAG_ENCRYPTION_QUIZ{code_master_level_1}",
+      "found": false,
+      "category": "Quiz",
+      "hint": "Laat zien wat je weet over encryptietechnieken in de speciale quiz."
+    },
+    {
+      "id": 19,
+      "flagName": "FLAG_INTERNET_SAFETY",
+      "description": "Flag voor het voltooien van de internet veiligheid quiz",
+      "value": "FLAG_INTERNET_SAFETY{surf_safely_champion}",
+      "found": false,
+      "category": "Quiz",
+      "hint": "Veilig internetten is cruciaal. Voltooi de quiz om deze flag te verdienen."
+    },
+    {
+      "id": 20,
+      "flagName": "FLAG_PRIVACY_QUIZ",
+      "description": "Flag voor het voltooien van de persoonlijke privacy quiz",
+      "value": "FLAG_PRIVACY_QUIZ{privacy_guardian_2023}",
+      "found": false,
+      "category": "Quiz",
+      "hint": "Je persoonlijke gegevens beschermen is belangrijk. Doe de privacy quiz."
+    },
+    {
+      "id": 21,
+      "flagName": "FLAG_MORSE_CODE",
+      "description": "Flag ontgrendeld door het kraken van de morse code",
+      "value": "FLAG_MORSE_CODE{audio_decryption_expert}",
+      "found": false,
+      "category": "Verborgen",
+      "hint": "Luister goed en ontcijfer de oude communicatiecode."
+    },
+    {
+      "id": 22,
+      "flagName": "FLAG_ENCRYPTION_LESSONS",
+      "description": "Flag gevonden op de encryptie lessen overzichtspagina",
+      "value": "FLAG_ENCRYPTION_LESSONS{knowledge_unlocks_secrets}",
+      "found": false,
+      "category": "Lessen",
+      "hint": "Bekijk de overzichtspagina van de encryptie lessen zorgvuldig."
+    },
+    {
+      "id": 23,
+      "flagName": "FLAG_THEME",
+      "description": "Flag bij het wisselen tussen light en dark mode",
+      "value": "FLAG_THEME{light_and_dark_secrets}",
+      "found": false,
+      "category": "UI Interactie",
+      "hint": "Sommige geheimen zijn alleen zichtbaar in het donker, andere alleen in het licht."
+    },
+    {
+      "id": 24,
+      "flagName": "FLAG_14",
+      "description": "Flag voor het oplossen van alle codes in het spel",
+      "value": "FLAG_14{code_master_2023}",
+      "found": false,
+      "category": "Spellen",
+      "hint": "Los alle codes op in het spel om deze speciale flag te verdienen."
+    }
+  ],
+  "gameProgress": {
+    "completedChallenges": [],
+    "unlockedCategories": [],
+    "lastPlayed": "2025-05-19T20:05:05.677Z"
+  },
+  "categories": [],
+  "hints": [],
+  "createdAt": "2025-05-19T20:05:05.677Z",
+  "lastUpdated": "2025-05-19T20:05:05.686Z"
+}
