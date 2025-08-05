@@ -64,7 +64,7 @@ export default function WelcomePopup({ onClose }) {
                     Hier ga je op zoek naar verstopte vlaggetjes (flags) en leer je spelenderwijs over veilig internetten!
                 </p>
                 <p className="mb-6">
-                    Voer je naam in om te beginnen met je avontuur. Je voortgang wordt opgeslagen in je browser.
+                    Voer je naam in om te beginnen met je avontuur. Je voortgang wordt opgeslagen in je browser. Je kunt op de flag pagina een certificaat krijgen voor je vindingen!
                 </p>
 
                 <form onSubmit={handleSubmit}>
