@@ -90,7 +90,7 @@ Er zijn 23 verborgen flags in het spel. Hier is hoe je ze allemaal kunt vinden:
 ### Admin Flags:
 1. **FLAG_1{social_engineering}** - Te vinden in de backend pagina, druk op de "Bewerk code" knop
 2. **FLAG_2{security_landmark}** - Te vinden in de backend pagina, druk op "Voeg code toe"
-3. **FLAG_8{administrator_access}** - Te vinden op de admin pagina
+3. **FLAG_8{administrator_access}** - Te vinden op de /admin pagina
 
 ### UI Interactie Flags:
 4. **FLAG_4{exploit_master}** - Klik op de puzzel emoji (🧩) op de game pagina
@@ -115,12 +115,14 @@ Er zijn 23 verborgen flags in het spel. Hier is hoe je ze allemaal kunt vinden:
 17. **FLAG_SHUFFLE{word_puzzle_master}** - Voltooi alle 10 puzzels in het Woord Shuffle spel
 18. **FLAG_EMOJI{emoji_code_master}** - Voltooi alle 5 puzzels in het Emoji Codekraker spel
 19. **FLAG_DIFFERENCES{spot_the_crypto_diff}** - Voltooi het Zoek de Verschillen spel
+20. **FLAG_14{code_master_2023}** - Voltooi de game
 
 ### Quiz-gerelateerde Flags:
-20. **FLAG_QUIZ{crypto_knowledge_master}** - Voltooi de Cybersecurity Quiz
 21. **FLAG_ENCRYPTION_QUIZ{code_master_level_1}** - Voltooi de Encryptie Kennis Quiz
 22. **FLAG_INTERNET_SAFETY{surf_safely_champion}** - Voltooi de Internet Veiligheid Quiz
 23. **FLAG_PRIVACY_QUIZ{privacy_guardian_2023}** - Voltooi de Persoonlijke Privacy Quiz
+24. **FLAG_QUIZ{crypto_knowledge_master}** - Voltooi de Cybersecurity Quiz
+
 
 ## Speciale Functies & Easter Eggs
 
