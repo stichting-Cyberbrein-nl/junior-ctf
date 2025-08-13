@@ -184,7 +184,7 @@ export default function EncryptionLessonDetail({ params }) {
         </div>
 
         {/* Gerelateerde links indien beschikbaar */}
-        {lesson.relatedLinks && lesson.relatedLinks.length > 0 && (
+        {/* {lesson.relatedLinks && lesson.relatedLinks.length > 0 && (
           <div className="p-6 bg-gray-50 dark:bg-gray-700 border-t dark:border-gray-600">
             <h2 className="text-xl font-semibold mb-4 dark:text-white">Gerelateerde Bronnen</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -204,7 +204,7 @@ export default function EncryptionLessonDetail({ params }) {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* Navigatieknoppen */}
         <div className="p-6 border-t flex justify-between">
