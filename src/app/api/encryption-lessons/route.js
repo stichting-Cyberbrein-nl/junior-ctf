@@ -7,6 +7,7 @@ import {
   deleteLesson,
   reorderLessons
 } from '../../../encryptionLessons';
+import { requireAdmin } from '../../../utils/adminAuth';
 
 // GET /api/encryption-lessons - Alle lessen ophalen
 export async function GET(request) {
@@ -27,6 +28,9 @@ export async function GET(request) {
 
 // POST /api/encryption-lessons - Nieuwe les toevoegen
 export async function POST(request) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const data = await request.json();
     if (!data.title || !data.content) {
@@ -43,6 +47,9 @@ export async function POST(request) {
 
 // PUT /api/encryption-lessons - Les bijwerken
 export async function PUT(request) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
@@ -67,6 +74,9 @@ export async function PUT(request) {
 
 // DELETE /api/encryption-lessons - Les verwijderen
 export async function DELETE(request) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
@@ -89,6 +99,9 @@ export async function DELETE(request) {
 
 // PATCH /api/encryption-lessons/reorder - Volgorde van lessen bijwerken
 export async function PATCH(request) {
+  const denied = requireAdmin(request);
+  if (denied) return denied;
+
   try {
     const data = await request.json();
     

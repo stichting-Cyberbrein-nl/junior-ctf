@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cyberbrein-cache-v1';
+const CACHE_NAME = 'cyberbrein-cache-v2';
 
 // List of all important pages to cache
 const PAGES_TO_CACHE = [
@@ -10,30 +10,9 @@ const PAGES_TO_CACHE = [
   '/emoji-code',
   '/spot-differences',
   '/leaderboard',
-  '/admin',
-  '/word-shuffle',
+    '/word-shuffle',
   '/hint',
   '/EndPage'
-];
-
-// List of all data files to cache
-const DATA_FILES_TO_CACHE = [
-  '/src/codes.js',
-  '/src/encryptionLessons.js',
-  '/src/flags.js',
-  '/src/quizzes.js',
-  '/src/encryptions.js',
-  '/src/leaderboard.js'
-];
-
-// List of API endpoints to cache
-const API_ENDPOINTS_TO_CACHE = [
-  '/api/codes',
-  '/api/encryption-lessons',
-  '/api/flags',
-  '/api/quizzes',
-  '/api/encryptions',
-  '/api/leaderboard'
 ];
 
 // List of static files to cache
@@ -61,8 +40,8 @@ self.addEventListener('install', (event) => {
       .then((cache) => {
         console.log('Cache opened successfully');
         
-        // Cache all important pages, data files, API endpoints, and static files
-        const urlsToCache = [...PAGES_TO_CACHE, ...DATA_FILES_TO_CACHE, ...API_ENDPOINTS_TO_CACHE, ...STATIC_FILES_TO_CACHE];
+        // Cache all important pages and static files
+        const urlsToCache = [...PAGES_TO_CACHE, ...STATIC_FILES_TO_CACHE];
         
         return Promise.all(
           urlsToCache.map(url => 
@@ -90,8 +69,18 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Only cache GET requests; POST/PUT/DELETE always go to the network
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   // Skip cross-origin requests
   if (!event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
+  // Never cache API responses
+  if (new URL(event.request.url).pathname.startsWith('/api/')) {
     return;
   }
 
@@ -104,40 +93,6 @@ self.addEventListener('fetch', (event) => {
   // Skip Next.js specific requests in development
   if (event.request.url.includes('_next') || event.request.url.includes('webpack-hmr')) {
     console.log('Skipping Next.js development request:', event.request.url);
-    return;
-  }
-
-  // Handle API requests
-  if (API_ENDPOINTS_TO_CACHE.some(endpoint => event.request.url.includes(endpoint))) {
-    event.respondWith(
-      caches.match(event.request)
-        .then(response => {
-          if (response) {
-            console.log('Serving cached API response:', event.request.url);
-            return response;
-          }
-          return fetch(event.request)
-            .then(response => {
-              if (!response.ok) {
-                throw new Error(`Failed to fetch ${event.request.url}`);
-              }
-              const responseToCache = response.clone();
-              caches.open(CACHE_NAME)
-                .then(cache => {
-                  cache.put(event.request, responseToCache);
-                  console.log('Cached API response:', event.request.url);
-                });
-              return response;
-            })
-            .catch(error => {
-              console.error('Error fetching API:', error);
-              // Return a basic offline response for API requests
-              return new Response(JSON.stringify({ error: 'offline' }), {
-                headers: { 'Content-Type': 'application/json' }
-              });
-            });
-        })
-    );
     return;
   }
 

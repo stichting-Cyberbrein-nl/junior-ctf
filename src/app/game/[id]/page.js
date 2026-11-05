@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation'; // Gebruik useParams voor het dynamisch ophalen van de id
-import { codes } from '../../../codes'; // Importeer de codes direct uit codes.js
 
 export default function GameCode() {
   const params = useParams();
@@ -12,36 +11,40 @@ export default function GameCode() {
   const [codeData, setCodeData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Voeg debug-log toe om te controleren of de id goed wordt opgehaald
-  console.log('Gevonden id:', id);
-
-  // Haal de specifieke code op basis van de id
+  // Haal de specifieke code (zonder oplossing) op basis van de id
   useEffect(() => {
-    if (id) {
-      const numericId = parseInt(id, 10); // Zet de id om naar een getal
-      console.log('Omgezet id naar getal:', numericId);
-
-      const foundCode = codes.find((item) => item.id === numericId); // Zoek de code op in codes.js
-      console.log('Gevonden code:', foundCode);
-
-      if (foundCode) {
-        setCodeData(foundCode);
-      } else {
-        setResult('❌ Code niet gevonden. flag 5: byqrbibr.');
-      }
-      setLoading(false); // Stop met laden, ongeacht of de code gevonden is
-    } else {
-      setLoading(false); // Stop ook als er geen id is
+    if (!id) {
+      setLoading(false);
+      return;
     }
+
+    fetch(`/api/codes?id=${encodeURIComponent(id)}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((foundCode) => {
+        if (foundCode) {
+          setCodeData(foundCode);
+        } else {
+          setResult('❌ Code niet gevonden. flag 5: byqrbibr.');
+        }
+      })
+      .catch(() => setResult('❌ Code niet gevonden. flag 5: byqrbibr.'))
+      .finally(() => setLoading(false)); // Stop met laden, ongeacht of de code gevonden is
   }, [id]);
 
-  const handleSubmit = () => {
+  // De oplossing wordt op de server gecontroleerd
+  const handleSubmit = async () => {
     if (!codeData) return;
 
-    if (input.trim() === codeData.solution) {
-      setResult(`✅ Correcte code!`);
-    } else {
-      setResult('❌ Onjuiste code, probeer opnieuw.');
+    try {
+      const response = await fetch('/api/check-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: input.trim(), id: codeData.id }),
+      });
+      const data = await response.json();
+      setResult(data.valid ? '✅ Correcte code!' : '❌ Onjuiste code, probeer opnieuw.');
+    } catch {
+      setResult('❌ Er ging iets mis, probeer opnieuw.');
     }
   };
 

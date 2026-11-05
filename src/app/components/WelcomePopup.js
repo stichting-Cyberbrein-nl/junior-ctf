@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { flags as initialFlags } from '../../flags';
+import { fetchPublicFlags } from '../../utils/publicFlags';
 import WalkthroughPopup from './WalkthroughPopup';
 
 export default function WelcomePopup({ onClose }) {
@@ -24,6 +24,7 @@ export default function WelcomePopup({ onClose }) {
             localStorage.setItem('username', username);
             
             // Initialiseer flags in sessionStorage (alleen browser opslag)
+            const initialFlags = await fetchPublicFlags();
             sessionStorage.setItem('foundFlags', JSON.stringify(initialFlags));
             
             // Initialiseer andere game data in sessionStorage

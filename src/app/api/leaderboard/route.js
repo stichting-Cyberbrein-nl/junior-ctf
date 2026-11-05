@@ -1,5 +1,9 @@
 import { leaderboard } from '../../../leaderboard';
 
+const MAX_ENTRIES = 500;
+const MAX_NAME_LENGTH = 30;
+const MAX_SCORE = 100000;
+
 export async function GET(req) {
   try {
     return new Response(JSON.stringify(leaderboard), { status: 200 });
@@ -13,15 +17,22 @@ export async function POST(req) {
   try {
     const { player, score } = await req.json();
 
-    if (!player || !score) {
-      return new Response(JSON.stringify({ error: 'Speler en score zijn vereist.' }), { status: 400 });
+    const name = typeof player === 'string' ? player.trim() : '';
+    const points = Number(score);
+
+    if (!name || name.length > MAX_NAME_LENGTH || !Number.isInteger(points) || points < 0 || points > MAX_SCORE) {
+      return new Response(JSON.stringify({ error: `Geef een naam (max ${MAX_NAME_LENGTH} tekens) en een score tussen 0 en ${MAX_SCORE}.` }), { status: 400 });
+    }
+
+    if (leaderboard.length >= MAX_ENTRIES) {
+      return new Response(JSON.stringify({ error: 'Het leaderboard is vol.' }), { status: 409 });
     }
 
     // Voeg een nieuwe speler en score toe
     const newEntry = {
       id: leaderboard.length + 1, // Nieuwe ID is lengte van de array + 1
-      player,
-      score: parseInt(score),
+      player: name,
+      score: points,
     };
 
     leaderboard.push(newEntry);
