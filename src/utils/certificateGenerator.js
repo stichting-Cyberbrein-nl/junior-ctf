@@ -130,7 +130,7 @@ export const generateCertificate = async (username, flags) => {
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(9);
       pdf.setTextColor(60, 180, 120);
-      pdf.text(flag.value, 220, y+15);
+      pdf.text(flag.value || flag.flagName, 220, y+15);
       y += 28;
     });
   }

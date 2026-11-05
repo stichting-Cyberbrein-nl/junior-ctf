@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { flags as initialFlags } from '../../flags';
+import { fetchPublicFlags } from '../../utils/publicFlags';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { generateCertificate } from '../../utils/certificateGenerator';
@@ -34,6 +34,11 @@ export default function FlagsPage() {
 
   // Initialize flags from session storage
   useEffect(() => {
+    const loadInitialFlags = () =>
+      fetchPublicFlags()
+        .then(setFlags)
+        .catch((error) => console.error('Error loading flags:', error));
+
     const savedFlags = sessionStorage.getItem('foundFlags');
     if (savedFlags) {
       try {
@@ -41,10 +46,10 @@ export default function FlagsPage() {
         setFlags(parsedFlags);
       } catch (error) {
         console.error('Error parsing saved flags:', error);
-        setFlags(initialFlags);
+        loadInitialFlags();
       }
     } else {
-      setFlags(initialFlags);
+      loadInitialFlags();
     }
   }, []);
 
@@ -93,23 +98,26 @@ export default function FlagsPage() {
     }
   }, [flags]);
 
-  const handleSubmit = () => {
-    // Verschillende formaten ondersteunen (met of zonder FLAG_ prefix, accolades, etc.)
-    let normalizedInput = input.trim();
-    
-    // Controleer of de ingevoerde flag overeenkomt met een van de flags, met flexibele matching
-    const flagFound = flags.find(flag => {
-      // Vergelijk directe match
-      if (flag.value.toLowerCase() === normalizedInput.toLowerCase()) {
-        return true;
-      }
-      
-      // Check zonder FLAG_ prefix of FLAG{} format
-      const flagValueNoPrefix = flag.value.replace(/^FLAG_?\{?/, '').replace(/\}$/, '');
-      const inputNoPrefix = normalizedInput.replace(/^FLAG_?\{?/, '').replace(/\}$/, '');
-      
-      return flagValueNoPrefix.toLowerCase() === inputNoPrefix.toLowerCase();
-    });
+  const handleSubmit = async () => {
+    const normalizedInput = input.trim();
+    if (!normalizedInput) return;
+
+    // De flag wordt op de server gecontroleerd; de client kent de waardes niet
+    let check;
+    try {
+      const response = await fetch('/api/flags', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ flagValue: normalizedInput }),
+      });
+      check = await response.json();
+    } catch (error) {
+      console.error('Error checking flag:', error);
+      setResult('❌ Er ging iets mis bij het controleren van de flag.');
+      return;
+    }
+
+    const flagFound = check.valid ? flags.find(flag => flag.id === check.flagId) : null;
     
     if (flagFound) {
       if (flagFound.found) {
@@ -117,7 +125,7 @@ export default function FlagsPage() {
       } else {
         // Update de flag status
         const updatedFlags = flags.map(flag => 
-          flag.id === flagFound.id ? { ...flag, found: true } : flag
+          flag.id === flagFound.id ? { ...flag, found: true, value: check.value } : flag
         );
         setFlags(updatedFlags);
 
@@ -143,8 +151,6 @@ export default function FlagsPage() {
   const resetProgress = () => {
     try {
       // Reset all flags to not found
-      const resetFlags = initialFlags.map(flag => ({ ...flag, found: false }));
-      setFlags(resetFlags);
       setAllFlagsFound(false);
       setResult('Alle voortgang is gereset.');
       // Verwijder gebruikersnaam en andere relevante data
@@ -390,7 +396,7 @@ export default function FlagsPage() {
                       </div>
                     )}
                     
-                    {flag.found && (
+                    {flag.found && flag.value && (
                       <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
                         <p className="text-xs font-mono break-all text-green-600 dark:text-green-400">{flag.value}</p>
                       </div>

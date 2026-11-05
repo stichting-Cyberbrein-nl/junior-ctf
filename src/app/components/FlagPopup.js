@@ -35,7 +35,7 @@ export default function FlagPopup({
         const flags = JSON.parse(savedFlags);
         const flagFound = flags.find(flag => 
           flag.flagName === flagName || 
-          flag.value === flagValue
+          (flagValue && flag.value === flagValue)
         );
         if (flagFound && flagFound.found) {
           setIsFlagFound(true);
@@ -56,7 +56,7 @@ export default function FlagPopup({
         // Vind de flag op basis van flagName of op basis van value als fallback
         const flagFound = flags.find(flag => 
           flag.flagName === flagName || 
-          flag.value === flagValue
+          (flagValue && flag.value === flagValue)
         );
         
         if (flagFound && flagFound.found) {
@@ -65,8 +65,8 @@ export default function FlagPopup({
         } else if (flagFound) {
           // Flag nog niet gevonden, update de flags in sessionStorage
           const updatedFlags = flags.map(flag => 
-            (flag.flagName === flagName || flag.value === flagValue) 
-              ? { ...flag, found: true } 
+            (flag.flagName === flagName || (flagValue && flag.value === flagValue)) 
+              ? { ...flag, found: true, value: flagValue || flag.value } 
               : flag
           );
           sessionStorage.setItem('foundFlags', JSON.stringify(updatedFlags));

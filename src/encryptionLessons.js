@@ -1513,6 +1513,26 @@ Wat je op social media deelt, kan voor altijd zichtbaar blijven - wees voorzicht
 ];
 
 // Functies voor het beheren van lessen
+// Alleen http(s)-URL's toestaan, zodat er geen javascript:-links in lessen terechtkomen
+function safeUrl(url) {
+  if (typeof url !== 'string' || url === '') return '';
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:' ? parsed.toString() : '';
+  } catch {
+    return '';
+  }
+}
+
+function safeLinks(links) {
+  if (!Array.isArray(links)) return [];
+  return links
+    .map(link => ({ title: String(link?.title || ''), url: safeUrl(link?.url) }))
+    .filter(link => link.url);
+}
+
+const EDITABLE_FIELDS = ['title', 'description', 'author', 'duration', 'difficulty', 'content'];
+
 export function getAllLessons() {
   return [...encryptionLessons].sort((a, b) => a.order - b.order);
 }
@@ -1537,8 +1557,8 @@ export function addLesson(lessonData) {
     author: lessonData.author || "Team Cyberbrein",
     duration: lessonData.duration || "",
     difficulty: lessonData.difficulty || "Beginner",
-    videoUrl: lessonData.videoUrl || "",
-    relatedLinks: lessonData.relatedLinks || [],
+    videoUrl: safeUrl(lessonData.videoUrl),
+    relatedLinks: safeLinks(lessonData.relatedLinks),
     content: lessonData.content,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
@@ -1553,9 +1573,16 @@ export function updateLesson(id, lessonData) {
   const index = encryptionLessons.findIndex(lesson => lesson.id === parseInt(id));
   if (index === -1) return null;
 
+  const updates = {};
+  for (const field of EDITABLE_FIELDS) {
+    if (typeof lessonData[field] === 'string') updates[field] = lessonData[field];
+  }
+  if ('videoUrl' in lessonData) updates.videoUrl = safeUrl(lessonData.videoUrl);
+  if ('relatedLinks' in lessonData) updates.relatedLinks = safeLinks(lessonData.relatedLinks);
+
   const updatedLesson = {
     ...encryptionLessons[index],
-    ...lessonData,
+    ...updates,
     updatedAt: new Date().toISOString()
   };
 
@@ -1575,8 +1602,8 @@ export function reorderLessons(newOrder) {
   // newOrder is een array van { id, order } objecten
   newOrder.forEach(item => {
     const lesson = encryptionLessons.find(l => l.id === parseInt(item.id));
-    if (lesson) {
-      lesson.order = item.order;
+    if (lesson && Number.isFinite(Number(item.order))) {
+      lesson.order = Number(item.order);
     }
   });
 } 

@@ -6,6 +6,23 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import FlagPopup from '../../components/FlagPopup';
 
+// Beheer-acties vereisen het ADMIN_TOKEN van de server; we vragen het één keer per sessie
+function adminHeaders() {
+  let token = sessionStorage.getItem('admin-token');
+  if (!token) {
+    token = prompt('Voer het beheer-token in') || '';
+    if (token) sessionStorage.setItem('admin-token', token);
+  }
+  return { 'x-admin-token': token };
+}
+
+function checkAdminResponse(response) {
+  if (response.status === 401 || response.status === 403) {
+    sessionStorage.removeItem('admin-token');
+    throw new Error('Geen toegang: ongeldig of ontbrekend beheer-token');
+  }
+}
+
 export default function EncryptionLessonsManagement() {
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -121,7 +138,9 @@ export default function EncryptionLessonsManagement() {
     try {
       const response = await fetch(`/api/encryption-lessons?id=${id}`, {
         method: 'DELETE',
+        headers: adminHeaders(),
       });
+      checkAdminResponse(response);
 
       if (!response.ok) {
         throw new Error('Fout bij het verwijderen van de les');
@@ -150,9 +169,11 @@ export default function EncryptionLessonsManagement() {
         method,
         headers: {
           'Content-Type': 'application/json',
+          ...adminHeaders(),
         },
         body: JSON.stringify(formData),
       });
+      checkAdminResponse(response);
 
       if (!response.ok) {
         throw new Error(`Fout bij het ${isNewLesson ? 'toevoegen' : 'bijwerken'} van de les`);
